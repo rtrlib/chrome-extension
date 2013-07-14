@@ -1,7 +1,6 @@
 /************************/
 /* 		URL PARSER 		*/
 /************************/
-var cacheTimeToLive = 90*1000;
 // parseUri 1.2.2
 // (c) Steven Levithan <stevenlevithan.com>
 // MIT License
@@ -72,6 +71,16 @@ function getCacheServer() {
 	return hostAndPort;
 }
 
+function getCacheTimeToLive() {
+	var cacheTimeToLive = 90;
+	if (localStorage["cache_time_to_live"] === undefined) {
+		localStorage["cache_time_to_live"] = cacheTimeToLive;
+	} else {
+		cacheTimeToLive = localStorage["cache_time_to_live"];
+	}
+	return cacheTimeToLive*1000;
+}
+
 /***************** STEP 1 ********************/
 /*    Fired when a request is completed. 	 */
 /*********************************************/
@@ -89,7 +98,7 @@ chrome.webRequest.onResponseStarted.addListener(function(info) {
 	{
 		var rpkiObject = JSON.parse(localStorage[info.ip]);
 		elapsedTime = new Date() - new Date(rpkiObject["timestamp"]);
-		if (elapsedTime > cacheTimeToLive) {
+		if (elapsedTime > getCacheTimeToLive()) {
 			localStorage.removeItem(info.ip);
 			cymruRequest(info.ip,info.tabId);
 		} else {
