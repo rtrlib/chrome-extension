@@ -1,6 +1,6 @@
 {
 	"name": "RPKI Validator",
-	"version": "1.1",
+	"version": "1.11",
 	"update_url": "http://myhost.com/mytestextension/updates.xml",
 	"options_page": "options.html",
 	"offline_enabled": false,
