@@ -119,7 +119,7 @@ function cymruRequest(ip,tabID)
 {
 	$.ajax({
 		type : "POST",
-		url : "http://whois.cymru.com/cgi-bin/whois.cgi",
+		url : "https://whois.cymru.com/cgi-bin/whois.cgi",
 		data : {
 			action : 'do_whois',
 			bulk_paste : ip,
