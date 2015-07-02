@@ -232,7 +232,12 @@ function changeIcon(validity,tabID)
             'path' : '/images/notAvailable.png'
         });
     }
-    chrome.pageAction.show(tabID);
+    try {
+        chrome.pageAction.show(tabID);
+    }
+    catch(err) {
+        console.log(err.message)
+    }
 }
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab)
