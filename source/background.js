@@ -171,13 +171,12 @@ function parseAsData(cymruResponse,tabID,ip) {
         info["asName"] = split2[3].trim();
         info["ip"] = split2[1].trim();
         info["prefix"] = split2[2].trim();
-        getValidity(info,tabID);
     // Repeat cymru request
     } catch (err) {
         console.log("Repeating cymru request.");
         cymruRequest(ip, tabID);
     }
-
+    getValidity(info,tabID);
 }
 
 /**************** STEP 4 *********************/
