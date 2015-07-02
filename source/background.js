@@ -147,7 +147,7 @@ function cymruRequest(ip,tabID)
         parseAsData(cymruResponse,tabID,ip);
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
-        console.log("Failed cymru request. Repeating...");
+        console.log("Failed cymruRequest. Repeating...");
         cymruRequest(ip, tabID);
     });
 }
@@ -164,18 +164,29 @@ function parseAsData(cymruResponse,tabID,ip) {
         // Cutting unnecessary parts.
         var split1 = requestResult.split("AS Name");
         var split2 = split1[1].split("|");
-
-        // The extracted data
         var info = new Object();
+        // The extracted data
         info["asn"] = split2[0].trim();
         info["asName"] = split2[3].trim();
         info["ip"] = split2[1].trim();
         info["prefix"] = split2[2].trim();
-        getValidity(info,tabID);
-    // Repeat cymru request
-    } catch (err) {
-        console.log("Repeating cymru request.");
-        cymruRequest(ip, tabID);
+        try {
+            getValidity(info,tabID);
+        }
+        catch (err) {
+            console.log("Error getValidity, failed with: "+err.message);
+        }
+    }
+    catch (err) {
+        console.log("Error parseAsData. Failed with "+err.message);
+    }
+}
+
+function callback() {
+    if (chrome.runtime.lastError) {
+        console.log(chrome.runtime.lastError.message);
+    } else {
+        // Tab exists
     }
 }
 
@@ -213,24 +224,24 @@ function changeIcon(validity,tabID)
         chrome.pageAction.setIcon({
             'tabId' : tabID,
             'path' : '/images/valid.png'
-        });
+        },callback);
     // Invalid
     } else if (validity.state.toLowerCase().substring(0,7) === "invalid") {
         chrome.pageAction.setIcon({
             'tabId' : tabID,
             'path' : '/images/invalid.png'
-        });
+        },callback);
     // Not found
     } else if (validity.state.toLowerCase() === "notfound") {
         chrome.pageAction.setIcon({
             'tabId' : tabID,
             'path' : '/images/notFound.png'
-        });
+        }, callback);
     } else {
         chrome.pageAction.setIcon({
             'tabId' : tabID,
             'path' : '/images/notAvailable.png'
-        });
+        }, callback);
     }
     try {
         chrome.pageAction.show(tabID);
