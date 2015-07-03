@@ -1,5 +1,3 @@
-// Save this script as `options.js`
-
 // Saves options to localStorage.
 function save_options() {
     localStorage.clear();
@@ -66,29 +64,5 @@ function restore_options() {
     cacheTimeToLive_input.value = cacheTimeToLive;
 }
 
-function default_options() {
-    localStorage.clear();
-    var rest = 'http://rpki-rbv.realmv6.org/api/v1/validity/';
-    localStorage["validationServerURL"] = rest;
-    var rest_input = document.getElementById("validationServerURL");
-    rest_input.value = rest;
-
-    var host = 'rpki-validator.realmv6.org';
-    localStorage["cacheServerHost"] = host;
-    var host_input = document.getElementById("cacheServerHost");
-    host_input.value = host;
-
-    var port = 8282;
-    localStorage["cacheServerPort"] = port;
-    var port_input = document.getElementById("cacheServerPort");
-    port_input.value = port;
-
-    var cacheTimeToLive = 90;
-    localStorage["cacheTTL"] = cacheTimeToLive;
-    var cacheTimeToLive_input = document.getElementById("cacheTTL");
-    cacheTimeToLive_input.value = cacheTimeToLive;
-}
-
 document.addEventListener('DOMContentLoaded', restore_options);
 document.querySelector('#save').addEventListener('click', save_options);
-document.querySelector('#default').addEventListener('click', default_options);

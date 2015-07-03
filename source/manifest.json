@@ -1,14 +1,16 @@
 {
     "manifest_version": 2,
-    "minimum_chrome_version": "18",
+    "minimum_chrome_version": "26",
 
     "name": "RPKI Validator",
     "description": "This add-on checks if the IP prefix of the web server is correctly announced in the global Internet.It provides information about a potential prefix hijack of the web server's IP prefix.",
     "homepage_url": "http://rpki.realmv6.org/",
-    "version": "2.0",
+    "version": "2.1",
 
-    "update_url": "http://myhost.com/mytestextension/updates.xml",
-    "options_page": "options.html",
+    "options_ui": {
+        "page": "options.html",
+        "chrome_style": true
+    },
     "offline_enabled": false,
 
     "icons": {
